@@ -8,12 +8,12 @@ My dotfiles. WIP
 
 **macOS**:
 
-```shell
-config.sh macos
+```bash
+./config.sh macos
 ```
 
 **Alpine**:
 
-```shell
-config.sh alpine
+```bash
+./config.sh alpine
 ```
