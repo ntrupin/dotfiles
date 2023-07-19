@@ -1,0 +1,7 @@
+[user]
+	email = natrupin@gmail.com
+	name = ntrupin
+[init]
+    defaultBranch = main
+[core]
+    editor = vim
