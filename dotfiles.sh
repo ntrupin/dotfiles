@@ -95,31 +95,21 @@ function alpine() {
     
     # alpine doesn't support OSTYPE
     # validate operating system
-    if [[ $(uname) != "Linux"* ]]; then
+    if [[ $(uname) != "Linux" ]]; then
         echo_error "Expected uname == 'Linux', got '$(uname)' instead"
         exit 1
     fi
 
-    # configure edge repos
-    echo_warning "APK Repositories: 
-    Repositories will be converted to their 'edge' versions.
-    Proceed?"
-    if prompt "APK Edge Repositories"; then
-        echo "http://dl-cdn.alpinelinux.org/alpine/edge/main
-http://dl-cdn.alpinelinux.org/alpine/edge/community
-http://dl-cdn.alpinelinux.org/alpine/edge/testing" > "/etc/apk/repositories"
-
-        echo_message "Upgrading repositories..."
-        apk update
-    fi
-
     # install base repos
     echo_warning "APK Repositories: 
-    Base alpine packages will be installed.
+    Base alpine packages will be installed and existing
+    packages will be updated.
     Proceed?"
     if prompt "APK base packages"; then
+        apk update
         apk add alpine-base
         apk add alpine-sdk
+        apk upgrade
     fi
 
     # nano
