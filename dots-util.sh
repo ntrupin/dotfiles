@@ -77,6 +77,10 @@ function general() {
 
     if prompt "Nano"; then
         backup_link ${DOTS_DIR}/nano/nanorc ~/.nanorc
+
+        # syntax highlighters
+        echo_message "Installing Nano syntax highlighters..."
+        wget https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh -O- | sh
     fi
 
     if prompt "Neofetch"; then
@@ -103,8 +107,7 @@ function alpine() {
 
     # install base repos
     echo_warning "APK Repositories: 
-    Base alpine packages will be installed and existing
-    packages will be updated."
+    Base alpine packages will be installed and existing packages will be updated."
     if prompt "APK base packages"; then
         echo_message "Updating packages..."
         apk update
@@ -114,22 +117,6 @@ function alpine() {
         apk add alpine-sdk
         echo_message "Upgrading all packages..."
         apk upgrade
-    fi
-
-    # nano
-    echo_warning "Nano:
-    Nano will be installed."
-    if prompt "Nano"; then
-        apk add nano
-
-        # syntax highlighters
-        echo_warning "Nano:
-    Additional .nanorc files will be installed"
-    from https://github.com/scopatz/nanorc.
-        if prompt "Nano syntax highlighters"; then
-            wget https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh -O- | sh
-        fi
-
     fi
 
     echo_message "Successfully configured Alpine."
@@ -146,14 +133,12 @@ function macos() {
 
     # Homebrew and packages
     echo_warning "Homebrew:
-    Homebrew will be installed from 'https://brew.sh'
-    Proceed?"
+    Homebrew will be installed from 'https://brew.sh'."
     if prompt "Homebrew"; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
         echo_warning "Homebrew:
-    Packages will be installed from homebrew/Brewfile
-    Existing packages will be uninstalled"
+    Formulae will be installed from homebrew/Brewfile. Existing formulae will be uninstalled."
         if prompt "Homebrew packages"; then
             ${DOTS_DIR}/macos/utils/brewrma.sh
             brew bundle --file ${DOTS_DIR}/homebrew/Brewfile
@@ -174,7 +159,7 @@ function help() {
 Manage dotfiles, install software, and fetch 
 useful scripts.
 
-Usage: ./config.sh <arg>
+Usage: ./dots-util.sh <arg>
 -----------------------------------------------
 
 available arguments:
