@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Inspired by https://github.com/holman/dotfiles, https://github.com/theopn/dotfiles, 
-# and advice from https://dotfiles.github.io/
+# thanks https://dotfiles.github.io/
 
 DOTS_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)
 DOTS_BAK_DIR=~/dotfiles.bak
@@ -66,7 +65,7 @@ function backup_link() {
     ln -s $1 $2
 }
 
-function general() {
+function install() {
     echo_message "Starting cross-platform configuration..."
 
     if prompt "Git"; then
@@ -95,7 +94,7 @@ function general() {
     echo_message "Successfully configured cross-platform utilities."
 }
 
-function alpine() {
+function config-alpine() {
     echo_message "Starting Alpine configuration..."
     
     # alpine doesn't support OSTYPE
@@ -122,7 +121,7 @@ function alpine() {
     echo_message "Successfully configured Alpine."
 }
 
-function macos() {
+function config-macos() {
     echo_message "Starting macOS configuration..."
 
     # validate operating system
@@ -149,31 +148,67 @@ function macos() {
     echo_message "Successfully configured macOS."
 }
 
+# thanks https://github.com/theopn/dotfiles
+function install-font() {
+    # make sure we got an argument
+    if [[ ! $1 ]]; then
+        echo_error "No font provided."
+        exit 1
+    fi
+
+    # validate from nerd fonts
+    if [[ "${1}" != "https://github.com/ryanoasis/nerd-fonts/"* ]]; then
+        echo_warning "Your provided font doesn't appear to be from Nerd Fonts and may not work with this install script."
+        if !proceed "Non-Nerd Font installation"; then
+            echo_message "Skipping font installation..."
+            exit 1
+        fi 
+    fi
+
+    echo_message "Insalling font from $1..."
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts
+    wget -O tmp.zip $1
+    unzip tmp.zip
+    rm tmp.zip
+
+    echo_message "Adding font to cache..."
+    fc-cache -fv
+
+    cd - > /dev/null 2>&1
+
+    echo_message "Successfully installed font from $1."
+}
+
 ######## MAIN AND HELP ########
 
 function help() {
     echo -e "
-                Noah's Dotfiles
-===============================================
+                   Noah's Dotfiles
+=====================================================
 
-Manage dotfiles, install software, and fetch 
-useful scripts.
+Manage dotfiles, install software, and fetch useful 
+scripts.
 
 Usage: ./dots-util.sh <arg>
------------------------------------------------
+-----------------------------------------------------
 
 available arguments:
-    general     : Setup cross-platform dots
-    macos       : Setup macOS
-    alpine      : Setup Alpine (deprecated)
+    install            : Install cross-platform dots
+    macos              : Configure macOS
+    alpine             : Configure Alpine
+    install-font <url> : Install font from <url>. 
+                         Designed for use with Nerd
+                         Fonts.
     " 
 }
 
 function main() {
     case $1 in
-        "general") general ;;
-        "macos") macos ;;
-        "alpine") alpine ;;
+        "install") install ;;
+        "macos") config-macos ;;
+        "alpine") config-alpine ;;
+        "install-font") install-font $2 ;;
         "help") help ;;
         *) 
             echo_warning "Invalid option" 
