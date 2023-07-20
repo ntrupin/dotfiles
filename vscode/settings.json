@@ -1,0 +1,22 @@
+{
+    "latex-workshop.view.pdf.viewer": "tab",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "workbench.colorTheme": "Default Dark+ Experimental",
+    "rust-analyzer.inlayHints.enable": false,
+    "files.associations": {
+        "*.jinja": "html",
+        "*.vm": "html"
+    },
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "[lua]": {
+        "editor.tabSize": 2
+    }
+}

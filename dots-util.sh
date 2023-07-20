@@ -2,6 +2,7 @@
 
 # thanks https://dotfiles.github.io/
 
+DOTS=(git nano neofetch neovim vim)
 DOTS_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)
 DOTS_BAK_DIR=~/dotfiles.bak
 
@@ -65,15 +66,15 @@ function backup_link() {
     ln -s $1 $2
 }
 
-function install() {
-    echo_message "Starting cross-platform configuration..."
-
+function install-git() {
     if prompt "Git"; then
         for file in ${DOTS_DIR}/git/*; do
             backup_link $file ~/.$(basename $file)
         done
     fi
+}
 
+function install-nano() {
     if prompt "Nano"; then
         backup_link ${DOTS_DIR}/nano/nanorc ~/.nanorc
 
@@ -81,17 +82,52 @@ function install() {
         echo_message "Installing Nano syntax highlighters..."
         wget https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh -O- | sh
     fi
+}
 
+function install-neofetch() {
     if prompt "Neofetch"; then
         mkdir -p ~/.config/neofetch/
         backup_link ${DOTS_DIR}/neofetch/config.conf ~/.config/neofetch/config.conf
     fi
+}
 
+function install-vim() {
     if prompt "Vim"; then
         backup_link ${DOTS_DIR}/vim/vimrc ~/.vimrc
     fi
+}
+
+function install-neovim() {
+    if prompt "Neovim"; then
+        mkdir -p ~/.config/nvim/
+        backup_link ${DOTS_DIR}/neovim ~/.config/nvim
+    fi
+}
+
+function install() {
+    echo_message "Starting cross-platform configuration..."
+
+    for item in "${DOTS[@]}"; do
+        $"install-$item"
+    done
 
     echo_message "Successfully configured cross-platform utilities."
+}
+
+function install-only() {
+    # make sure we received an argument
+    if [[ ! $1 ]]; then
+        echo_error "No argument provided."
+        exit 1
+    fi
+
+    # make sure dotfile exits
+    if [[ ! " ${DOTS[@]} " =~ " $1 " ]]; then
+        echo_error "Dotfile '$1' does not exist."
+        exit 1
+    fi
+
+    $"install-$1"
 }
 
 function config-alpine() {
@@ -150,7 +186,7 @@ function config-macos() {
 
 # thanks https://github.com/theopn/dotfiles
 function install-font() {
-    # make sure we got an argument
+    # make sure we received an argument
     if [[ ! $1 ]]; then
         echo_error "No font provided."
         exit 1
@@ -180,7 +216,22 @@ function install-font() {
     echo_message "Successfully installed font from $1."
 }
 
-######## MAIN AND HELP ########
+######## MAIN, LIST, AND HELP ########
+
+function list() {
+    echo "
+                   Noah's Dotfiles
+=====================================================
+
+All Dotfiles : ./dots-util.sh install
+One Dotfile  : ./dots-util.sh install-only <name>
+-----------------------------------------------------
+
+available dotfiles:"
+    for item in "${DOTS[@]}"; do
+        echo "    ${item}"
+    done
+}
 
 function help() {
     echo -e "
@@ -190,14 +241,18 @@ function help() {
 Manage dotfiles, install software, and fetch useful 
 scripts.
 
+Shameless plug - https://ntrupin.com
+
 Usage: ./dots-util.sh <arg>
 -----------------------------------------------------
 
 available arguments:
-    install            : Install cross-platform dots
-    macos              : Configure macOS
-    alpine             : Configure Alpine
-    install-font <url> : Install font from <url>. 
+    install            : Install cross-platform dots.
+    install-only <arg> : Install <arg>'s dotfiles.
+    list               : List available dotfiles.
+    macos              : Configure macOS.
+    alpine             : Configure Alpine.
+    install-font <url> : Install font from <url>.
                          Designed for use with Nerd
                          Fonts.
     " 
@@ -206,6 +261,8 @@ available arguments:
 function main() {
     case $1 in
         "install") install ;;
+        "install-only") install-only $2 ;;
+        "list") list ;;
         "macos") config-macos ;;
         "alpine") config-alpine ;;
         "install-font") install-font $2 ;;

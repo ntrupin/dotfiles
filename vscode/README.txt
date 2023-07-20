@@ -1,0 +1,1 @@
+I'm not sure how to go about importing VSCode settings. However, here's my (minimal) configuration.
