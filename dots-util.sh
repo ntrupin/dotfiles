@@ -99,8 +99,19 @@ function install-vim() {
 
 function install-neovim() {
     if prompt "Neovim"; then
-        mkdir -p ~/.config/nvim/
-        backup_link ${DOTS_DIR}/neovim ~/.config/nvim
+
+        # backup
+        echo_message "Moving existing ~/.config/nvim to ${DOTS_BAK_DIR}..."
+        mkdir -p ${DOTS_BAK_DIR}
+        mv ~/.config/nvim ${DOTS_BAK_DIR}/.config/
+
+        mkdir -p ~/.config/nvim
+        cd ~/.config/nvim
+        
+        echo_message "Cloning ntrupin/noahvim..."
+        git clone --depth 1 https://github.com/ntrupin/noahvim.git .
+
+        cd - > /dev/null 2>&1
     fi
 }
 
@@ -128,6 +139,8 @@ function install-only() {
     fi
 
     $"install-$1"
+
+    echo_message "Successfully ran install-$1."
 }
 
 function config-alpine() {
