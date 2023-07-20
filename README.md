@@ -15,12 +15,19 @@ git clone https://github.com/ntrupin/dotfiles.git
 <details><summary>List of cross-platform utilities</summary>
 
 - Git
+
     Speaks for itself.
+
 - Nano
+
     The perfect minimal text editor. Now with syntax highlighting!
+
 - Neofetch
+
     Pretty-printed system information.
+
 - Vim
+
     *The* text editor.
 
 </details>
