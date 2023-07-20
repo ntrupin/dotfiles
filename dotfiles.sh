@@ -41,6 +41,7 @@ function echo_error() {
 function prompt() {
     echo_warning "Do you wish to proceed with configuring ${1}?"
     read -p "[y/N] " -n1 -r 
+    echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then 
         true
     else
@@ -103,27 +104,28 @@ function alpine() {
     # install base repos
     echo_warning "APK Repositories: 
     Base alpine packages will be installed and existing
-    packages will be updated.
-    Proceed?"
+    packages will be updated."
     if prompt "APK base packages"; then
+        echo_message "Updating packages..."
         apk update
+        echo_message "Installing alpine-base..."
         apk add alpine-base
+        echo_message "Installing alpine-sdk..."
         apk add alpine-sdk
+        echo_message "Upgrading all packages..."
         apk upgrade
     fi
 
     # nano
     echo_warning "Nano:
-    Nano will be installed.
-    Proceed?"
+    Nano will be installed."
     if prompt "Nano"; then
         apk add nano
 
         # syntax highlighters
         echo_warning "Nano:
-    Additional .nanorc files will be installed
+    Additional .nanorc files will be installed"
     from https://github.com/scopatz/nanorc.
-    Proceed?"
         if prompt "Nano syntax highlighters"; then
             wget https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh -O- | sh
         fi

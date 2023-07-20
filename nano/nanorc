@@ -1,4 +1,4 @@
-include ~/*.nanorc
+include ~/.nano/*.nanorc
 
 set constantshow
 set tabsize 4
