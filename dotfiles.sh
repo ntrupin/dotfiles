@@ -74,13 +74,16 @@ function general() {
         done
     fi
 
+    if prompt "Nano"; then
+        backup_link ${DOTS_DIR}/nano/nanorc ~/.nanorc
+    fi
+
     if prompt "Neofetch"; then
         mkdir -p ~/.config/neofetch/
         backup_link ${DOTS_DIR}/neofetch/config.conf ~/.config/neofetch/config.conf
     fi
 
     if prompt "Vim"; then
-        mkdir -p ~/.config/neofetch/
         backup_link ${DOTS_DIR}/vim/vimrc ~/.vimrc
     fi
 
@@ -88,8 +91,56 @@ function general() {
 }
 
 function alpine() {
-    echo_message "Launching alpine install script..."
-    $(DOTS_DIR)/deprecated/alpine/config.sh
+    echo_message "Starting Alpine configuration..."
+    
+    # alpine doesn't support OSTYPE
+    # validate operating system
+    if [[ $(uname) != "Linux"* ]]; then
+        echo_error "Expected uname == 'Linux', got '$(uname)' instead"
+        exit 1
+    fi
+
+    # configure edge repos
+    echo_warning "APK Repositories: 
+    Repositories will be converted to their 'edge' versions.
+    Proceed?"
+    if prompt "APK Edge Repositories"; then
+        echo "http://dl-cdn.alpinelinux.org/alpine/edge/main
+http://dl-cdn.alpinelinux.org/alpine/edge/community
+http://dl-cdn.alpinelinux.org/alpine/edge/testing" > "/etc/apk/repositories"
+
+        echo_message "Upgrading repositories..."
+        apk update
+    fi
+
+    # install base repos
+    echo_warning "APK Repositories: 
+    Base alpine packages will be installed.
+    Proceed?"
+    if prompt "APK base packages"; then
+        apk add alpine-base
+        apk add alpine-sdk
+    fi
+
+    # nano
+    echo_warning "Nano:
+    Nano will be installed.
+    Proceed?"
+    if prompt "Nano"; then
+        apk add nano
+
+        # syntax highlighters
+        echo_warning "Nano:
+    Additional .nanorc files will be installed
+    from https://github.com/scopatz/nanorc.
+    Proceed?"
+        if prompt "Nano syntax highlighters"; then
+            wget https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh -O- | sh
+        fi
+
+    fi
+
+    echo_message "Successfully configured Alpine."
 }
 
 function macos() {

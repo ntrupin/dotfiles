@@ -9,11 +9,11 @@ My dotfiles. WIP
 **macOS**:
 
 ```bash
-./config.sh macos
+./dotfiles.sh macos
 ```
 
 **Alpine**:
 
 ```bash
-./config.sh alpine
+./dotfiles.sh alpine
 ```
