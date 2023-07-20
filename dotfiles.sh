@@ -166,19 +166,19 @@ function macos() {
 
 function help() {
     echo -e "
-                    Noah's Dotfiles
-    ===============================================
+                Noah's Dotfiles
+===============================================
 
-    Manage dotfiles, install software, and fetch 
-    useful scripts.
+Manage dotfiles, install software, and fetch 
+useful scripts.
 
-    Usage: ./config.sh <arg>
-    -----------------------------------------------
+Usage: ./config.sh <arg>
+-----------------------------------------------
 
-    available arguments:
-        general     : Setup cross-platform dots
-        macos       : Setup macOS
-        alpine      : Setup Alpine (deprecated)
+available arguments:
+    general     : Setup cross-platform dots
+    macos       : Setup macOS
+    alpine      : Setup Alpine (deprecated)
     " 
 }
 
