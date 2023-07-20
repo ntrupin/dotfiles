@@ -24,13 +24,6 @@ git clone https://github.com/ntrupin/dotfiles.git
 
 - Configure macOS-specific utilities:
 
-<details><summary>List of macOS-specific utilities</summary>
-
-- Homebrew
-    Installs formulae from [./homebrew/Brewfile](https://github.com/ntrupin/dotfiles/blob/main/homebrew/Brewfile)
-
-</details>
-
 ```bash
 ./dotfiles/dots-util.sh macos
 ```
