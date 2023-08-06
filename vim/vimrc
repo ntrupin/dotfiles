@@ -1,7 +1,52 @@
 filetype plugin indent on
 
+" general
+set filetype="on"
+set syntax="on"
+set confirm=true
+set autochdir=false
+set scrolloff=7
+set showtabline=2
+set laststatus=3
+
+" search
+set hlsearch=true
+set incsearch=true
+set ignorecase=true
+set smartcase=true
+
+" split pane
+set splitright=false
+set splitbelow=true
+
+" appearance
+set mouse="a"
+set list=true
+
+" folding
+set foldmethod="expr"
+set foldlevel=1
+set foldenable=false
+
+" tabs as spaces
 set tabstop=4
+set softtabstop=0
+set expandtab=true
 set shiftwidth=4
-set expandtab
+
+" spellcheck
+set spelllang="en"
+set spellsuggest="best,8"
+set spell=false
+
+" window
+set number=true
+set relativenumber=true
+set numberwidth=3
+set cursorline=true
+set cursorcolumn=true
+
+" termguicolors
+set termguicolors=true
 
 syntax on
