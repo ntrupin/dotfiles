@@ -145,7 +145,7 @@ function install-only() {
 
 function config-alpine() {
     echo_message "Starting Alpine configuration..."
-    
+
     # alpine doesn't support OSTYPE
     # validate operating system
     if [[ $(uname) != "Linux" ]]; then
