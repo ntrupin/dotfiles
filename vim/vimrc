@@ -5,7 +5,7 @@ set filetype syntax confirm
 set noautochdir
 set scrolloff=7
 set showtabline=2
-set laststatus=3
+set colorcolumn=80
 
 " search
 set hlsearch incsearch ignorecase smartcase
