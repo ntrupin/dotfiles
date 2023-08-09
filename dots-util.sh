@@ -16,29 +16,29 @@ NOCOL="\x1b[0m"
 ######## ECHO HELPERS ########
 
 # $1 = color, $2 = message
-function echo_color() {
+echo_color() {
     echo -e "${1}${2}${NOCOL}"
 }
 
 # regular messages 
-function echo_message() {
+echo_message() {
     echo_color $GREEN "[Message] $1"
 }
 
 # warning
-function echo_warning() {
+echo_warning() {
     echo_color $YELLOW "[Warning] $1"
 }
 
 # error
-function echo_error() {
+echo_error() {
     echo_color $RED "[Error] $1"
 }
 
 ######## UTILITY FUNCTIONS ########
 
 # $1 = message
-function prompt() {
+prompt() {
     echo_warning "Do you wish to proceed with configuring ${1}?"
     read -p "[y/N] " -n1 -r 
     echo
@@ -52,7 +52,7 @@ function prompt() {
 
 ######## INSTALL FUNCTIONS ########
 
-function backup_link() {
+backup_link() {
     # check if file exists
     if [[ -f $2 ]]; then
         # backup
@@ -66,7 +66,7 @@ function backup_link() {
     ln -s $1 $2
 }
 
-function install-git() {
+install-git() {
     if prompt "Git"; then
         for file in ${DOTS_DIR}/git/*; do
             backup_link $file ~/.$(basename $file)
@@ -74,7 +74,7 @@ function install-git() {
     fi
 }
 
-function install-nano() {
+install-nano() {
     if prompt "Nano"; then
         backup_link ${DOTS_DIR}/nano/nanorc ~/.nanorc
 
@@ -84,20 +84,20 @@ function install-nano() {
     fi
 }
 
-function install-neofetch() {
+install-neofetch() {
     if prompt "Neofetch"; then
         mkdir -p ~/.config/neofetch/
         backup_link ${DOTS_DIR}/neofetch/config.conf ~/.config/neofetch/config.conf
     fi
 }
 
-function install-vim() {
+install-vim() {
     if prompt "Vim"; then
         backup_link ${DOTS_DIR}/vim/vimrc ~/.vimrc
     fi
 }
 
-function install-neovim() {
+install-neovim() {
     if prompt "Neovim"; then
 
         # backup
@@ -107,7 +107,7 @@ function install-neovim() {
 
         mkdir -p ~/.config/nvim
         cd ~/.config/nvim
-        
+
         echo_message "Cloning ntrupin/noahvim..."
         git clone --depth 1 https://github.com/ntrupin/noahvim.git .
 
@@ -115,7 +115,7 @@ function install-neovim() {
     fi
 }
 
-function install() {
+install() {
     echo_message "Starting cross-platform configuration..."
 
     for item in "${DOTS[@]}"; do
@@ -125,7 +125,7 @@ function install() {
     echo_message "Successfully configured cross-platform utilities."
 }
 
-function install-only() {
+install-only() {
     # make sure we received an argument
     if [[ ! $1 ]]; then
         echo_error "No argument provided."
@@ -143,7 +143,7 @@ function install-only() {
     echo_message "Successfully ran install-$1."
 }
 
-function config-alpine() {
+config-alpine() {
     echo_message "Starting Alpine configuration..."
 
     # alpine doesn't support OSTYPE
@@ -170,7 +170,7 @@ function config-alpine() {
     echo_message "Successfully configured Alpine."
 }
 
-function config-macos() {
+config-macos() {
     echo_message "Starting macOS configuration..."
 
     # validate operating system
@@ -198,7 +198,7 @@ function config-macos() {
 }
 
 # thanks https://github.com/theopn/dotfiles
-function install-font() {
+install-font() {
     # make sure we received an argument
     if [[ ! $1 ]]; then
         echo_error "No font provided."
@@ -231,7 +231,7 @@ function install-font() {
 
 ######## MAIN, LIST, AND HELP ########
 
-function list() {
+list() {
     echo "
                    Noah's Dotfiles
 =====================================================
@@ -246,7 +246,7 @@ available dotfiles:"
     done
 }
 
-function help() {
+help() {
     echo -e "
                    Noah's Dotfiles
 =====================================================
@@ -271,7 +271,7 @@ available arguments:
     " 
 }
 
-function main() {
+main() {
     case $1 in
         "install") install ;;
         "install-only") install-only $2 ;;

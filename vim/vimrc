@@ -58,9 +58,10 @@ call plug#end()
 
 set laststatus=2                                     " always show statusline
 set statusline=\|                                    " bar 
-set statusline+=\ %{toupper(mode())}   " current mode
-set statusline+=\ \|                                  " space and bar
-set statusline+=\ %f                                  " path to file
+set statusline+=\ %{toupper(mode())}                 " current mode
+set statusline+=\ \|                                 " space and bar
+set statusline+=\ %f                                 " path to file
+set statusline+=\ %m                                 " modified
 set statusline+=%=                                   " switch to right side
 set statusline+=%{(&fenc!=''?&fenc:&enc)}            " file encoding / encoding
 set statusline+=\ \|                                 " space and bar
