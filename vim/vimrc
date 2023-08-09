@@ -54,6 +54,27 @@ call plug#end()
 
 " }}}
 
+" {{{ Statusline
+
+set laststatus=2                                     " always show statusline
+set statusline=\|                                    " bar 
+set statusline+=\ %{toupper(mode())}   " current mode
+set statusline+=\ \|                                  " space and bar
+set statusline+=\ %f                                  " path to file
+set statusline+=%=                                   " switch to right side
+set statusline+=%{(&fenc!=''?&fenc:&enc)}            " file encoding / encoding
+set statusline+=\ \|                                 " space and bar
+set statusline+=\ %Y                                 " filetype
+set statusline+=\ \|                                 " space and bar
+set statusline+=\ %P                                 " percent through file
+set statusline+=\ \|                                 " space and bar
+set statusline+=\ %l                                 " current line
+set statusline+=:                                    " colon
+set statusline+=%c                                   " current column
+set statusline+=\ \|%{''}                            " end
+
+" }}}
+
 " {{{ Keybinds
 
 " leader
@@ -74,7 +95,7 @@ nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
 nnoremap <leader><LEFT> <C-w>10<
-nnoremap <leader>RIGHT> <C-w>10>
+nnoremap <leader><RIGHT> <C-w>10>
 nnoremap <leader><UP> <C-w>5+
 nnoremap <leader><DOWN> <C-w>5-
 nnoremap <leader>H <C-w>H
