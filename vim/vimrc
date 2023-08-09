@@ -24,7 +24,11 @@ set foldmethod=marker foldlevel=0
 set tabstop=4 shiftwidth=4 softtabstop=0 expandtab autoindent
 
 " spellcheck
-set spell spelllang=en spellsuggest=best,8
+set nospell spelllang=en_us spellsuggest=best,8
+augroup SpellCheck
+  autocmd!
+  autocmd FileType tex,text,markdown setlocal spell
+augroup END
 
 " window
 set number relativenumber numberwidth=3
