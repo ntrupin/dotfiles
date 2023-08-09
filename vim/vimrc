@@ -57,7 +57,8 @@ endif
 call plug#begin()
 Plug 'junegunn/goyo.vim' " focus mode
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim' " fuzzy finder
+Plug 'junegunn/fzf.vim'  " fuzzy finder
+Plug 'lervag/vimtex'     " tex support
 call plug#end()
 
 " }}}
