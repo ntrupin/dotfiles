@@ -107,6 +107,9 @@ nnoremap <leader>H <C-w>H
 nnoremap <leader>J <C-w>J
 nnoremap <leader>L <C-w>L
 
+" navigation
+nnoremap <leader>t :Explore<CR>
+
 " buffers
 nnoremap <leader>[ :bprevious<CR>
 nnoremap <leader>] :bnext<CR>
