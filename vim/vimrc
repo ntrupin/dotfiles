@@ -1,8 +1,12 @@
+" leader
+nnoremap <SPACE> <NOP>
+let mapleader=' '
+
 " {{{ Settings
 
 " General
 set filetype syntax confirm
-set noautochdir
+set noautochdir noshowmode
 set scrolloff=7
 set showtabline=2
 set colorcolumn=80
@@ -58,38 +62,60 @@ call plug#end()
 
 " }}}
 
+" {{{ Netrw
+
+" options
+let g:netrw_winsize=25
+let g:netrw_keepdir=0               " sync current dir and browsing dir
+let g:netrw_banner=0
+let g:netrw_localcopydircmd='cp -r' " recursive copy dirs
+
+" keymaps
+nnoremap <leader>t :Lexplore<CR>
+
+" clear statusline
+autocmd FileType netrw setlocal statusline=\ 
+
+" }}}
+
 " {{{ Statusline
 
-set laststatus=2                                     " always show statusline
-set statusline=\|                                    " bar 
-set statusline+=\ %{toupper(mode())}                 " current mode
-set statusline+=\ \|                                 " space and bar
-set statusline+=\ %f                                 " path to file
-set statusline+=\ %m                                 " modified
-set statusline+=%=                                   " switch to right side
-set statusline+=%{(&fenc!=''?&fenc:&enc)}            " file encoding / encoding
-set statusline+=\ \|                                 " space and bar
-set statusline+=\ %Y                                 " filetype
-set statusline+=\ \|                                 " space and bar
-set statusline+=\ %P                                 " percent through file
-set statusline+=\ \|                                 " space and bar
-set statusline+=\ %l                                 " current line
-set statusline+=:                                    " colon
-set statusline+=%c                                   " current column
-set statusline+=\ \|%{''}                            " end
+set laststatus=2                                   " always show statusline
+
+let g:currentmode={
+  \ 'n'  : 'NORMAL', 'no' : 'OP-PENDING',
+  \ 'v'  : 'VISUAL', 'V'  : 'V-LINE', '' : 'V-BLOCK',
+  \ 's'  : 'SELECT', 'S'  : 'S-LINE', '' : 'S-BLOCK',
+  \ 'i'  : 'INSERT',
+  \ 'R'  : 'REPLACE', 'Rv' : 'V-REPLACE',
+  \ 'c'  : 'COMMAND', 'cv' : 'VIM EX', 'ce' : 'EX',
+  \ 'r'  : 'PROMPT', 'rm' : 'MORE', 'r?' : 'CONFIRM',
+  \ '!'  : 'SHELL' }
+set statusline=\|                                  " bar 
+set statusline+=\ %{currentmode[mode()]}           " current mode
+set statusline+=\ \|                               " space and bar
+set statusline+=\ %f                               " path to file
+set statusline+=\ %m                               " modified
+set statusline+=%=                                 " switch to right side
+set statusline+=%{(&fenc!=''?&fenc:&enc)}          " file encoding / encoding
+set statusline+=\ \|                               " space and bar
+set statusline+=\ %Y                               " filetype
+set statusline+=\ \|                               " space and bar
+set statusline+=\ %P                               " percent through file
+set statusline+=\ \|                               " space and bar
+set statusline+=\ %l                               " current line
+set statusline+=:                                  " colon
+set statusline+=%c                                 " current column
+set statusline+=\ \|%{''}                          " end
 
 " }}}
 
 " {{{ Keybinds
 
-" leader
-nnoremap <SPACE> <NOP>
-let mapleader=' '
-
 " autopair
 inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
-inoremap {<CR> {<CR>}0<C-D><ESC>ko
+inoremap {<CR> {<CR>}<ESC>ko<TAB>
 
 " split panes
 nnoremap <leader>\| :vsplit<CR><C-w>l
@@ -106,9 +132,6 @@ nnoremap <leader><DOWN> <C-w>5-
 nnoremap <leader>H <C-w>H
 nnoremap <leader>J <C-w>J
 nnoremap <leader>L <C-w>L
-
-" navigation
-nnoremap <leader>t :Explore<CR>
 
 " buffers
 nnoremap <leader>[ :bprevious<CR>

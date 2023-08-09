@@ -40,7 +40,7 @@ echo_error() {
 # $1 = message
 prompt() {
     echo_warning "Do you wish to proceed with configuring ${1}?"
-    read -p "[y/N] " -n1 -r 
+    read -p "[y/N] " -n1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then 
         true
