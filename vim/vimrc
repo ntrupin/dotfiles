@@ -42,7 +42,7 @@ set cursorline cursorcolumn
 
 " {{{ Colorscheme
 
-colo lunaperche
+autocmd VimEnter * color gruvbox
 
 " }}}
 
@@ -56,9 +56,10 @@ endif
 
 call plug#begin()
 Plug 'junegunn/goyo.vim' " focus mode
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'  " fuzzy finder
 Plug 'lervag/vimtex'     " tex support
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " }}}
@@ -85,8 +86,8 @@ set laststatus=2                                   " always show statusline
 
 let g:currentmode={
   \ 'n'  : 'NORMAL', 'no' : 'OP-PENDING',
-  \ 'v'  : 'VISUAL', 'V'  : 'V-LINE', '' : 'V-BLOCK',
-  \ 's'  : 'SELECT', 'S'  : 'S-LINE', '' : 'S-BLOCK',
+  \ 'v'  : 'VISUAL', 'V'  : 'V-LINE', ' ' : 'V-BLOCK',
+  \ 's'  : 'SELECT', 'S'  : 'S-LINE',
   \ 'i'  : 'INSERT',
   \ 'R'  : 'REPLACE', 'Rv' : 'V-REPLACE',
   \ 'c'  : 'COMMAND', 'cv' : 'VIM EX', 'ce' : 'EX',
@@ -114,9 +115,9 @@ set statusline+=\ \|%{''}                          " end
 " {{{ Keybinds
 
 " autopair
-inoremap ( ()<LEFT>
-inoremap [ []<LEFT>
-inoremap {<CR> {<CR>}<ESC>ko<TAB>
+" inoremap ( ()<LEFT>
+" inoremap [ []<LEFT>
+" inoremap {<CR> {<CR>}<ESC>ko<TAB>
 
 " split panes
 nnoremap <leader>\| :vsplit<CR><C-w>l
